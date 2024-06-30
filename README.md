@@ -30,7 +30,7 @@ options:
 🤝 Contribute: https://github.com/ibnaleem/instatracker
 ```
 > [!IMPORTANT]
-> You must login to *your* Instagram account in order to properly scrape someone else's Instagram account. This is due to Instagram blocking `HTTPS GET` requests from unauthenticated cookies. Your login information is never stored. See more [here](https://github.com/ibnaleem/instatracker/blob/main/main.py#L48) and [here](https://github.com/instaloader/instaloader/blob/master/instaloader/instaloadercontext.py#L253C1-L338C43).
+> You must login to *your* Instagram account in order to properly scrape someone else's Instagram account. This is due to Instagram blocking `HTTPS GET` requests from unauthenticated cookies. Your login information is never stored. See more [here](https://github.com/ibnaleem/instatracker/blob/main/main.py#L51C1-L56C136) and [here](https://github.com/instaloader/instaloader/blob/master/instaloader/instaloadercontext.py#L253C1-L338C43).
 
 > [!TIP]
 > You can always create/use an alt-account for the interative login.
