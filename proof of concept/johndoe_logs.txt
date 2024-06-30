@@ -1,0 +1,9 @@
+------2024-06-30 01:01:13.659694+00:00------
+johndoe has 100
+johndoe is following 100 people
+johndoe has 0 posts
+johndoe has the following bio: this is my biography
+------2024-06-31 02:03:15.761715+00:00------
+johndoe has lost 2 followers (100 followers --> 98 followers)
+------2024-06-31 05:03:15.761715+00:00------
+johndoe has gained 5 followers (98 followers --> 103 followers)
