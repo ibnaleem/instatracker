@@ -47,11 +47,14 @@ $ git clone https://github.com/ibnaleem/instatracker.git
 ```
 $ pip install -r requirements.txt
 ```
+#### Set `user` & `passwd` field on [line 56](https://github.com/ibnaleem/instatracker/blob/main/main.py#L56)
+```python
+self.bot.login(user="YOUR INSTAGRAM USERNAME", passwd="YOUR INSTAGRAM PASSWORD") # this allows us to access & scrape Instagram.
+```
 #### Run the script
 ```
 $ python3 main.py -u USERNAME
 ```
-You will be prompted to login to an Instagram account. Enter your details for the script to start running.
 ## Automated Logging
 InstaTracker not only displays all modifications an Instagram account makes directly to the terminal (e.g., *USERNAME has unfollowed 1 person*), but it also records these changes in a text file, including the date and time.
 ```
@@ -66,7 +69,7 @@ johndoe has lost 2 followers (100 followers --> 98 followers)
 johndoe has gained 5 followers (98 followers --> 103 followers)
 ...
 ```
-This script checks for any changes every 5 minutes because Instagram's firewall starts blocking requests that are sent too quickly. You can manually update this [here](https://github.com/ibnaleem/instatracker/blob/main/main.py#L61), but do not be surprised if the script stops working.
+This script checks for any changes every 5 minutes because Instagram's firewall starts blocking requests that are sent too quickly. You can manually update this [here](https://github.com/ibnaleem/instatracker/blob/main/main.py#L70), but do not be surprised if the script stops working.
 
 ## Built With
 - [Python](https://www.python.org/)
