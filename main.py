@@ -6,6 +6,7 @@ Contribute: https://github.com/ibnaleem/instatracker
 from rich.console import Console
 from argparse import ArgumentParser
 import datetime, instaloader, os, time
+from instaloader.exceptions import AbortDownloadException
 
 ascii_art = """
  ___           _       _____               _             
@@ -58,44 +59,51 @@ class InstaTracker:
         self.console.print(f"[bold green]Tracking started! I will log all changes to {self.username}_logs.txt and this terminal![/bold green]")
 
         while True:
-            time.sleep(300)
-            if self.get_followers() != initial["followers"]:
-                if initial["followers"] > self.get_followers():
+            try:
+                time.sleep(300)
+                if self.get_followers() != initial["followers"]:
+                    if initial["followers"] > self.get_followers():
+                        self.console.print(f"[bold red]------{self.date}------[/bold red]")
+                        self.console.print(f"[bold red]{self.username} has lost {initial['followers'] - self.get_followers()} followers ({initial['followers']} followers --> {self.get_followers()} followers)[/bold red]")
+                        self.write_to_file(f"------{self.date}------\n{self.username} has lost {initial['followers'] - self.get_followers()} followers ({initial['followers']} followers --> {self.get_followers()} followers)")
+                    else:
+                        self.console.print(f"[bold red]------{self.date}------[/bold red]")
+                        self.console.print(f"[bold green]{self.username} has gained {self.get_followers() - initial['followers']} followers ({initial['followers']} followers --> {self.get_followers()} followers)[/bold green]")
+                        self.write_to_file(f"------{self.date}------\n{self.username} has gained {self.get_followers() - initial['followers']} followers ({initial['followers']} followers --> {self.get_followers()} followers)")
+                    initial["followers"] = self.get_followers()
+                if self.get_following() != initial["following"]:
+                    if initial["following"] > self.get_following():
+                        self.console.print(f"[bold red]------{self.date}------[/bold red]")
+                        self.console.print(f"[bold red]{self.username} has unfollowed {initial['following'] - self.get_following()} people ({initial['following']} following --> {self.get_following()} following)[/bold red]")
+                        self.write_to_file(f"------{self.date}------\n{self.username} has unfollowed {initial['following'] - self.get_following()} people ({initial['following']} following --> {self.get_following()} following)")
+                    else:
+                        self.console.print(f"[bold red]------{self.date}------[/bold red]")
+                        self.console.print(f"[bold green]{self.username} has followed {self.get_following() - initial['following']} people ({initial['following']} following --> {self.get_following()} following)[/bold green]")
+                        self.write_to_file(f"------{self.date}------\n{self.username} has followed {self.get_following() - initial['following']} people ({initial['following']} following --> {self.get_following()} following)")
+                    initial["following"] = self.get_following()
+                if self.get_posts() != initial["posts"]:
+                    if initial["posts"] > self.get_posts():
+                        self.console.print(f"[bold red]------{self.date}------[/bold red]")
+                        self.console.print(f"[bold red]{self.username} has deleted {initial['posts'] - self.get_posts()} posts ({initial['posts']} posts --> {self.get_posts()} posts)[/bold red]")
+                        self.write_to_file(f"------{self.date}------\n{self.username} has deleted {initial['posts'] - self.get_posts()} posts ({initial['posts']} posts --> {self.get_posts()} posts)")
+                    else:
+                        self.console.print(f"[bold red]------{self.date}------[/bold red]")
+                        self.console.print(f"[bold green]{self.username} has posted {self.get_posts() - initial['posts']} posts ({initial['posts']} posts --> {self.get_posts()} posts)[/bold green]")
+                        self.write_to_file(f"------{self.date}------\n{self.username} has posted {self.get_posts() - initial['posts']} posts ({initial['posts']} posts --> {self.get_posts()} posts)")
+                    initial["posts"] = self.get_posts()
+                if self.get_bio() != initial["bio"]:
                     self.console.print(f"[bold red]------{self.date}------[/bold red]")
-                    self.console.print(f"[bold red]{self.username} has lost {initial['followers'] - self.get_followers()} followers ({initial['followers']} followers --> {self.get_followers()} followers)[/bold red]")
-                    self.write_to_file(f"------{self.date}------\n{self.username} has lost {initial['followers'] - self.get_followers()} followers ({initial['followers']} followers --> {self.get_followers()} followers)")
-                else:
-                    self.console.print(f"[bold red]------{self.date}------[/bold red]")
-                    self.console.print(f"[bold green]{self.username} has gained {self.get_followers() - initial['followers']} followers ({initial['followers']} followers --> {self.get_followers()} followers)[/bold green]")
-                    self.write_to_file(f"------{self.date}------\n{self.username} has gained {self.get_followers() - initial['followers']} followers ({initial['followers']} followers --> {self.get_followers()} followers)")
-                initial["followers"] = self.get_followers()
-            if self.get_following() != initial["following"]:
-                if initial["following"] > self.get_following():
-                    self.console.print(f"[bold red]------{self.date}------[/bold red]")
-                    self.console.print(f"[bold red]{self.username} has unfollowed {initial['following'] - self.get_following()} people ({initial['following']} following --> {self.get_following()} following)[/bold red]")
-                    self.write_to_file(f"------{self.date}------\n{self.username} has unfollowed {initial['following'] - self.get_following()} people ({initial['following']} following --> {self.get_following()} following)")
-                else:
-                    self.console.print(f"[bold red]------{self.date}------[/bold red]")
-                    self.console.print(f"[bold green]{self.username} has followed {self.get_following() - initial['following']} people ({initial['following']} following --> {self.get_following()} following)[/bold green]")
-                    self.write_to_file(f"------{self.date}------\n{self.username} has followed {self.get_following() - initial['following']} people ({initial['following']} following --> {self.get_following()} following)")
-                initial["following"] = self.get_following()
-            if self.get_posts() != initial["posts"]:
-                if initial["posts"] > self.get_posts():
-                    self.console.print(f"[bold red]------{self.date}------[/bold red]")
-                    self.console.print(f"[bold red]{self.username} has deleted {initial['posts'] - self.get_posts()} posts ({initial['posts']} posts --> {self.get_posts()} posts)[/bold red]")
-                    self.write_to_file(f"------{self.date}------\n{self.username} has deleted {initial['posts'] - self.get_posts()} posts ({initial['posts']} posts --> {self.get_posts()} posts)")
-                else:
-                    self.console.print(f"[bold red]------{self.date}------[/bold red]")
-                    self.console.print(f"[bold green]{self.username} has posted {self.get_posts() - initial['posts']} posts ({initial['posts']} posts --> {self.get_posts()} posts)[/bold green]")
-                    self.write_to_file(f"------{self.date}------\n{self.username} has posted {self.get_posts() - initial['posts']} posts ({initial['posts']} posts --> {self.get_posts()} posts)")
-                initial["posts"] = self.get_posts()
-            if self.get_bio() != initial["bio"]:
+                    self.console.print(f"[bold green]{self.username} has updated their bio:[/bold green]")
+                    self.console.print(f"[bold red] Before: {initial['bio']}[/bold red]")
+                    self.console.print(f"[bold green] After: {self.get_bio()}[/bold green]")
+                    self.write_to_file(f"------{self.date}------\n{self.username} has updated their bio:\nBefore: {initial['bio']}\nAfter: {self.get_bio()}")
+                    initial["bio"] = self.get_bio()
+            except AbortDownloadException:
                 self.console.print(f"[bold red]------{self.date}------[/bold red]")
-                self.console.print(f"[bold green]{self.username} has updated their bio:[/bold green]")
-                self.console.print(f"[bold red] Before: {initial['bio']}[/bold red]")
-                self.console.print(f"[bold green] After: {self.get_bio()}[/bold green]")
-                self.write_to_file(f"------{self.date}------\n{self.username} has updated their bio:\nBefore: {initial['bio']}\nAfter: {self.get_bio()}")
-                initial["bio"] = self.get_bio()
+                self.console.print(f"[bold red]You've been logged out, tracking has been paused[/bold red]")
+                self.write_to_file(f"------{self.date}------\nYou've been logged out, tracking has been paused")
+                self.console.print("[bold red]Please login again...[/bold red]")
+                self.bot.interactive_login(bot_username)
 if __name__ == "__main__":
     parser = ArgumentParser(prog="Instagram Tracker",
         description="📸 an Instagram tracker that logs any changes to an Instagram account (followers, following, posts, and bio)",
