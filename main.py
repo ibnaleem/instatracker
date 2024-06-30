@@ -42,11 +42,12 @@ class InstaTracker:
     def write_to_file(self, data):
         with open(f"{self.username}_logs.txt", "a") as f:
             f.write(f"{data}\n")
-    def main(self):
-        os.system("clear" if not os.name == "nt" else "cls")
-        self.console.print(ascii_art, style="bold blue")
-        bot_username = input("Enter your Instagram username: ")
-        self.bot.interactive_login(bot_username)
+    def main(self, args):
+        if not args:
+            os.system("clear" if not os.name == "nt" else "cls")
+            self.console.print(ascii_art, style="bold blue")
+            bot_username = input("Enter your Instagram username: ")
+            self.bot.interactive_login(bot_username)
         self.console.print(f"[bold green]Welcome to InstaTracker[/bold green]")
         self.console.print(f"[bold blue]Getting initial data for {self.username}...[/bold blue]")
         initial = {"followers": self.get_followers(), "following": self.get_following(), "posts": self.get_posts(), "bio": self.get_bio()}
@@ -104,6 +105,7 @@ class InstaTracker:
                 self.write_to_file(f"------{self.date}------\nYou've been logged out, tracking has been paused")
                 self.console.print("[bold red]Please login again...[/bold red]")
                 self.bot.interactive_login(bot_username)
+                self.main("args")
 if __name__ == "__main__":
     parser = ArgumentParser(prog="Instagram Tracker",
         description="📸 an Instagram tracker that logs any changes to an Instagram account (followers, following, posts, and bio)",
