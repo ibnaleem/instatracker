@@ -42,7 +42,7 @@ class InstaTracker:
     def write_to_file(self, data):
         with open(f"{self.username}_logs.txt", "a") as f:
             f.write(f"{data}\n")
-    def main(self, args):
+    def main(self, args=None):
         if not args:
             os.system("clear" if not os.name == "nt" else "cls")
             self.console.print(ascii_art, style="bold blue")
