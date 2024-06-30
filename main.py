@@ -41,7 +41,7 @@ class InstaTracker:
 
     def write_to_file(self, data):
         with open(f"{self.username}_logs.txt", "a") as f:
-            f.write(data\n)
+            f.write(f"{data}\n")
     def main(self):
         os.system("clear" if not os.name == "nt" else "cls")
         self.console.print(ascii_art, style="bold blue")
