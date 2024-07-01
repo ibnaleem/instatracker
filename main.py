@@ -22,8 +22,11 @@ class InstaTracker:
         self.instaloader = instaloader
         self.bot = self.instaloader.Instaloader()
         self.console = Console()
-        self.date = datetime.datetime.now(datetime.UTC)
 
+    @property
+    def date(self):
+     return datetime.datetime.now(datetime.UTC)
+ 
     def get_followers(self):
         profile = self.instaloader.Profile.from_username(self.bot.context, self.username)
         return profile.followers
