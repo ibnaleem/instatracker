@@ -15,6 +15,8 @@
 </div>
 
 ---------------------------------------
+
+![proof of concept](https://github.com/ibnaleem/instatracker/blob/main/proof%20of%20concept/poc.png?raw=true)
 ```
 python3 main.py -h
 usage: Instagram Tracker [-h] -u USERNAME
