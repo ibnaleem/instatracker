@@ -49,7 +49,7 @@ $ git clone https://github.com/ibnaleem/instatracker.git
 ```
 $ pip install -r requirements.txt
 ```
-#### Set `user` & `passwd` field on [line 56](https://github.com/ibnaleem/instatracker/blob/main/main.py#L56)
+#### Set `user` & `passwd` field on [line 71](https://github.com/ibnaleem/instatracker/blob/main/main.py#L71)
 ```python
 self.bot.login(user="YOUR INSTAGRAM USERNAME", passwd="YOUR INSTAGRAM PASSWORD") # this allows us to access & scrape Instagram.
 ```
